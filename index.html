@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" xml:lang="zh-Hant">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <meta name="Description" content="LOL英雄聯盟圖鑑"/>
+        <title>LOL英雄聯盟圖鑑</title>
+        <!--Bootstrap CSS-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <!--SweetAlert2 CSS-->
+        <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.min.css" rel="stylesheet">
+        <!--Local CSS-->
+        <style>
+            header{
+                background-color: rgb(47, 205, 223);
+                height: 150px;
+                font-size: 35px;
+                display:flex;
+                justify-content: center;
+                align-items: center;
+            }
+        </style>
+    </head>
+    <body>
+        <!------------------------------------------------------------------------------------------------------>
+        <!--Body Content-->
+        <header>
+            <h1>LOL英雄聯盟圖鑑</h1>
+        </header>
+        <main>
+            <div class="container">
+                <div class="d-flex flex-wrap mt-3" id="cbody" style="gap:8px;">
+                    <div class="spinner-border text-primary m-auto" role="status"  style="height:300px;width:300px;">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>                
+                </div>
+            </div>            
+        </main>
+        <!--Template-------------------------->
+        <template id="tmp-cd">
+            <div class="card bg-warning" style="width: 18rem;">
+                <img src="https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Aatrox_0.jpg" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title rounded bg-dark text-white p-1">UNTITLE</h5>
+                    <p class="card-text">
+                        Content
+                    </p>
+                    <button type="button" class="btn btn-primary edit01" data-bs-toggle="modal" data-bs-target="#modalId1">詳細</button>
+                    <button type="button" class="btn btn-danger edit02" data-bs-toggle="modal" data-bs-target="#modalId2">影片</button>
+                </div>
+            </div>  
+            <!--Modal 1 ------------>
+            <div class="modal fade edit03" id="modalId1" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalTitleId">詳細</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <img src="" class="img-fluid rounded-top" alt="">
+                            <div class="modal-context">
+                                Context
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--Modal 2 ------------>
+            <div class="modal fade edit04" id="modalId2" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalTitleId">影片</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <embed src="https://www.youtube.com/embed/tgXfFhdbgSU" width="100%" height="460px">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>          
+        </template>
+        <!------------------------------------------------------------------------------------------------------>
+        <!--Babel JS-->
+        <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+        <!--Bootstrap JS-->
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+        <!--SweetAlert2 JS-->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.3/dist/sweetalert2.all.min.js"></script>      
+        <!--Local JS-->
+        <script type="text/babel"> //Public
+            //Event Listeners
+            window.onload=()=>{
+                fetch("https://ddragon.leagueoflegends.com/cdn/10.22.1/data/zh_TW/champion.json").
+                then(
+                    (response)=>{return response.json()},
+                    (error)=>{
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops',
+                            text: 'Cannot receive JSON',
+                        });
+                    }
+                ).then(
+                    (json)=>{
+                        const data=json;
+                        const tmp=document.getElementById("tmp-cd");
+                        const cbody=document.getElementById("cbody");
+                        let datalist=Object.values(data.data);
+                        let index=-1;
+                        console.log(data);
+                        cbody.innerHTML="";
+                        for(var i of datalist){
+                            index++;
+                            let x=document.createElement("span");
+                            x.innerHTML=tmp.innerHTML;
+                            x.querySelector("img").setAttribute(
+                                "src",
+                                `https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${i.id}_0.jpg`
+                            );
+                            x.querySelector(".card-title").innerHTML=`${index} : ${i.id} - ${i.name}`;
+                            x.querySelector(".card-text").innerHTML=i.blurb.substr(0,42)+"...";
+                            x.querySelector(".edit01").setAttribute("data-bs-target",`#modal-${i.id}-1`);
+                            x.querySelector(".edit02").setAttribute("data-bs-target",`#modal-${i.id}-2`);
+                            x.querySelector(".edit03").setAttribute("id",`modal-${i.id}-1`);
+                            x.querySelector(".edit04").setAttribute("id",`modal-${i.id}-2`);
+                            x.querySelector(".modal-title").innerHTML=`${i.id} - ${i.name}`;
+                            x.querySelector(".img-fluid").setAttribute("src",`https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${i.id}_0.jpg`);
+                            x.querySelector(".modal-context").innerHTML=`
+                                HP : ${i.stats.hp}<br>
+                                Move Speed : ${i.stats.movespeed}<br>
+                                Armor : ${i.stats.armor}<br>
+                                Spell Block : ${i.stats.spellblock}<br>
+                                AttackRange : ${i.stats.attackrange}<br>
+                            `;
+                            cbody.innerHTML+=x.innerHTML;
+                        }
+                    }
+                );
+            };
+        </script>
+    </body>
+</html>
